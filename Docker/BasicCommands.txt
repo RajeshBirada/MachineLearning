@@ -1,0 +1,22 @@
+FROM python:3.8-slim-buster
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+EXPOSE 8000
+ENTRYPOINT [ "python3", "main.py"]
+
+gcloud config set project rkbirada-docker1
+
+gcloud builds submit --tag gcr.io/rkbirada-docker1/codeint 
+gcloud run deploy --image gcr.io/rkbirada-docker1/codeint
+
+
+docker build -t modelhub:v2 .
+docker run -p 8080:8000 --name modelhub -it modelhub:v2 --sh
+
+docker ps -all
+docker rm $(docker ps -q -f status=exited)
