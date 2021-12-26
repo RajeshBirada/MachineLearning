@@ -9,6 +9,7 @@ COPY . .
 EXPOSE 8000
 ENTRYPOINT [ "python3", "main.py"]
 
+#Deploying container in GCP Cloud Shell
 gcloud config set project rkbirada-docker1
 
 gcloud builds submit --tag gcr.io/rkbirada-docker1/codeint 
